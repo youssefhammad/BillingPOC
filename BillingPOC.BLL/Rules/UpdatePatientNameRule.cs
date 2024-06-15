@@ -16,8 +16,8 @@ namespace BillingPOC.BLL.Rules
                 .Match<Patient>(() => patient, p => p.PatientId > 0);
 
             Then()
-                .Do(ctx => AppendToFirstName(patient))
-                .Do(ctx => ctx.Update(patient));
+                .Do(ctx => AppendToFirstName(patient));
+                //.Do(ctx => ctx.Update(patient));
         }
 
         private void AppendToFirstName(Patient patient)

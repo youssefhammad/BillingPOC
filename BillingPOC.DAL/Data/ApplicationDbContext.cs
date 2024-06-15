@@ -27,6 +27,7 @@ namespace BillingPOC.DAL.Data
         public DbSet<ProcedureConfiguration> ProcedureConfigurations { get; set; }
         public DbSet<ProcedurePlanConfiguration> ProcedurePlanConfigurations { get; set; }
         public DbSet<PatientProcedureResult> PatientProcedureResults { get; set; }
+        public DbSet<ProcedureStatus> ProcedureStatuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
