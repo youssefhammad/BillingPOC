@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BillingPOC.Core.Interfaces.Repositories
+{
+    public interface IUnitOfWork : IDisposable
+    {
+        IGenericRepository<TEntity> Repository<TEntity>() where TEntity : class;
+        IUserRepository User { get; }
+        IPatientProcedureResultRepository PatientProcedureViewResult { get; }
+        IPatientRepository Patient { get; }
+        Task<int> CompleteAsync();
+    }
+}

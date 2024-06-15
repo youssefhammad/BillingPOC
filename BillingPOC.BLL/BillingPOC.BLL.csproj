@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Rules\3l0h3hns.s5x~" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MailKit" Version="4.6.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
+		<PackageReference Include="NRules" Version="0.9.4" />
+		<PackageReference Include="NRules.Fluent" Version="0.9.4" />
+		<PackageReference Include="NRules.Runtime" Version="0.9.4" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\BillingPOC.Core.Interfaces\BillingPOC.Core.Interfaces.csproj" />
+	  <ProjectReference Include="..\BillingPOC.Core\BillingPOC.Core.csproj" />
+	</ItemGroup>
+
+
+
+</Project>
