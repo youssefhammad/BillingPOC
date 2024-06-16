@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BillingPOC.BLL.Rules;
+using BillingPOC.Core.ViewModels;
+using System.Reflection;
 
 namespace BillingPOC.BLL.Implementations
 {
@@ -23,7 +25,10 @@ namespace BillingPOC.BLL.Implementations
 
             // Define the rule repository
             var repository = new RuleRepository();
-            repository.Load(x => x.From(typeof(UpdatePatientNameRule).Assembly));
+            //repository.Load(x => x.From(typeof(UpdatePatientNameRule).Assembly));
+            //repository.Load(x => x.From(typeof(PatientBillingRule).Assembly));
+
+            repository.Load(x => x.From(Assembly.GetExecutingAssembly()));
 
             // Compile the rules
             _sessionFactory = repository.Compile();
@@ -31,15 +36,26 @@ namespace BillingPOC.BLL.Implementations
 
         public async Task<object> CalculateBill(int patientId)
         {
-            var patient =  await _unitOfWork.Patient.GetByIdAsync(patientId);
+            Patient patient =  await _unitOfWork.Patient.GetByIdAsync(patientId);
             
-            var patientprocedures = await _unitOfWork.PatientProcedureViewResult.GetPatientProcedureResultsAsync(patientId);
+            IEnumerable<PatientProcedureResult> patientprocedures = await _unitOfWork.PatientProcedureViewResult.GetPatientProcedureResultsAsync(patientId);
 
+            IEnumerable<PatientInvoiceResult> patientInvoice = await _unitOfWork.PatientInvoiceResult.GetPatientInvoiceResultsAsync(patientId);
+            var session = _sessionFactory.CreateSession();
+
+            // Insert facts into the session
+            session.Insert(patient);
+            session.InsertAll(patientprocedures);
+            session.InsertAll(patientInvoice);
+
+            // Fire the rules
+            session.Fire();
 
             return new
             {
                 Patient = patient,
-                Patientprocedures = patientprocedures,
+                PatientProcedures = patientprocedures,
+                PatientInvoices = patientInvoice
             };
         }
 

@@ -11,6 +11,7 @@ namespace BillingPOC.Core.Interfaces.Repositories
         IGenericRepository<TEntity> Repository<TEntity>() where TEntity : class;
         IUserRepository User { get; }
         IPatientProcedureResultRepository PatientProcedureViewResult { get; }
+        IPatientInvoiceResultRepository PatientInvoiceResult { get; }
         IPatientRepository Patient { get; }
         Task<int> CompleteAsync();
     }

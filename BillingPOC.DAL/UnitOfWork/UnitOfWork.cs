@@ -17,6 +17,7 @@ namespace BillingPOC.DAL.UnitOfWork
         private readonly UserManager<User> _userManager;
         private IUserRepository _userRepository;
         private IPatientProcedureResultRepository _patientProcedureResultRepository;
+        private IPatientInvoiceResultRepository _patientInvoiceResultRepository;
         private IPatientRepository _patientRepository;
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
         private readonly RoleManager<ApplicationRole> _roleManager;
@@ -45,6 +46,8 @@ namespace BillingPOC.DAL.UnitOfWork
         public IPatientProcedureResultRepository PatientProcedureViewResult => _patientProcedureResultRepository ??= new PatientProcedureResultRepository(_context);
 
         public IPatientRepository Patient => _patientRepository ??= new PatientRepository(_context);
+
+        public IPatientInvoiceResultRepository PatientInvoiceResult => _patientInvoiceResultRepository ??= new PatientInvoiceResultRepository(_context);
 
         public async Task<int> CompleteAsync()
         {

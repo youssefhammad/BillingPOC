@@ -20,6 +20,8 @@ namespace BillingPOC.Core.Entities
         public int? InvoiceStatusId { get; set; }
         [ForeignKey("InvoiceStatusId")]
         public InvoiceStatus InvoiceStatus { get; set; }
+        public decimal Charge {  get; set; }
+        public decimal Discount { get; set; }
         public ICollection<PatientMedicalProcedure> PatientMedicalProcedures { get; set; }
     }
 }

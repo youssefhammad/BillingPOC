@@ -10,6 +10,7 @@ namespace BillingPOC.Core.ViewModels
     {
         public int PatientId { get; set; }
         public int PlanId { get; set; }
+        public int InvoiceId { get; set; }
         public int MedicalProcedureId { get; set; }
         public string ProcedureName { get; set; }
         public int ProcedureConfigurationId { get; set; }
