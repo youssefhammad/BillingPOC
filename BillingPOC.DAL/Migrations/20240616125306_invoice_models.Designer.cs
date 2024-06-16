@@ -4,6 +4,7 @@ using BillingPOC.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BillingPOC.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240616125306_invoice_models")]
+    partial class invoice_models
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,28 +57,28 @@ namespace BillingPOC.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "51c6e80e-eba2-401b-91b5-26872bf550ab",
+                            Id = "0911486b-85ac-4c56-9eb1-1d0d4afd9e27",
                             DisplayName = "Administrator",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "9650df53-277b-4c93-8177-6a0751481260",
+                            Id = "c27d6059-553b-460f-bcd3-52f7d32183d7",
                             DisplayName = "Insurance Coordinator",
                             Name = "InsuranceCoordinator",
                             NormalizedName = "INSURANCECOORDINATOR"
                         },
                         new
                         {
-                            Id = "adbbc917-c2df-483c-bc9c-58cf3dddf7d3",
+                            Id = "84c0d9c1-5b0b-4fd2-a476-fdddefff2682",
                             DisplayName = "Accountant",
                             Name = "Accountant",
                             NormalizedName = "ACCOUNTANT"
                         },
                         new
                         {
-                            Id = "229e0be5-5b81-4b75-80c9-54c466d33762",
+                            Id = "8da4bf1f-eb65-4ad8-8f19-6cdb3fb2d3b1",
                             DisplayName = "Auditor",
                             Name = "Auditor",
                             NormalizedName = "AUDITOR"
@@ -122,7 +125,7 @@ namespace BillingPOC.DAL.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("BillingPOC.Core.Entities.InvoiceStatus", b =>
@@ -139,7 +142,7 @@ namespace BillingPOC.DAL.Migrations
 
                     b.HasKey("InvoiceStatusId");
 
-                    b.ToTable("InvoiceStatuses");
+                    b.ToTable("InvoiceStatus");
                 });
 
             modelBuilder.Entity("BillingPOC.Core.Entities.MedicalProcedure", b =>

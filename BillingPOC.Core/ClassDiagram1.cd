@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BillingPOC.Core.Entities.Invoice">
+    <Position X="4.75" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAgAIAAAAQAAAAAAAAABAAAACAAAAAQAAAAAAAAACAA=</HashCode>
+      <FileName>Entities\Invoice.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Patient" />
+      <Property Name="InvoiceStatus" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BillingPOC.Core.Entities.Patient">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAQAAAAAAAAAAAAQEAAAAAAABAAAAACAAAAg=</HashCode>
+      <FileName>Entities\Patient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BillingPOC.Core.Entities.PatientMedicalProcedure">
+    <Position X="1.25" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAgIAAAAAEEAAAAIAAAAFAgAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Entities\PatientMedicalProcedure.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Invoice" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BillingPOC.Core.Entities.InvoiceStatus">
+    <Position X="8.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAQAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Entities\InvoiceStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

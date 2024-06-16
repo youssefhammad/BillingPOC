@@ -15,6 +15,6 @@ namespace BillingPOC.Core.Entities
         [ForeignKey("PlanId")]
         public Plan Plan { get; set; }
         public decimal CoInsurance { get; set; }
-        public ICollection<PatientMedicalProcedure> PatientMedicalProcedures { get; set; }
+        public ICollection<Invoice> Invoices { get; set; }
     }
 }
