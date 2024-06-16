@@ -40,13 +40,15 @@ namespace BillingPOC.BLL.Implementations
             
             IEnumerable<PatientProcedureResult> patientprocedures = await _unitOfWork.PatientProcedureViewResult.GetPatientProcedureResultsAsync(patientId);
 
-            IEnumerable<PatientInvoiceResult> patientInvoice = await _unitOfWork.PatientInvoiceResult.GetPatientInvoiceResultsAsync(patientId);
+            IEnumerable<PatientInvoiceResult> patientInvoices = await _unitOfWork.PatientInvoiceResult.GetPatientInvoiceResultsAsync(patientId);
             var session = _sessionFactory.CreateSession();
 
             // Insert facts into the session
             session.Insert(patient);
-            session.InsertAll(patientprocedures);
-            session.InsertAll(patientInvoice);
+
+            patientprocedures.ToList().ForEach(procedure => session.Insert(procedure));
+
+            patientInvoices.ToList().ForEach(invioce =>  session.Insert(invioce));
 
             // Fire the rules
             session.Fire();
@@ -55,7 +57,7 @@ namespace BillingPOC.BLL.Implementations
             {
                 Patient = patient,
                 PatientProcedures = patientprocedures,
-                PatientInvoices = patientInvoice
+                PatientInvoices = patientInvoices
             };
         }
 

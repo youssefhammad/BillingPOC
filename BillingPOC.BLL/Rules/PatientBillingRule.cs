@@ -11,30 +11,24 @@ namespace BillingPOC.BLL.Rules
         public override void Define()
         {
             Patient patient = default!;
-            IEnumerable<PatientInvoiceResult> patientInvoices = default!;
-            IEnumerable<PatientProcedureResult> patientProcedures = default!;
+            PatientInvoiceResult patientInvoice = default!;
+            PatientProcedureResult patientProcedure = default!;
 
             When()
                 .Match<Patient>(() => patient)
-                .Query(() => patientInvoices, q => q
-                    .Match<PatientInvoiceResult>(
+                    .Match<PatientInvoiceResult>(() => patientInvoice,
                         invoice => invoice.PatientId == patient.PatientId,
                         invoice => invoice.InvoiceStatusId == 2)
-                    .Collect()
-                    .Where(invoices => invoices.Any()))
-                .Query(() => patientProcedures, q => q
-                    .Match<PatientProcedureResult>(
-                        procedure => patientInvoices.Select(i => i.InvoiceId).Contains(procedure.InvoiceId),
-                        procedure => procedure.ProcedureStatusId == 2) 
-                    .Collect()
-                    .Where(procedures => procedures.Any()));
+                    .Match<PatientProcedureResult>(() => patientProcedure,
+                        procedure => patientInvoice.InvoiceId == procedure.InvoiceId,
+                        procedure => procedure.ProcedureStatusId == 2);
 
             Then()
-                .Do(ctx => PrintBillingInfo(patient, patientInvoices, patientProcedures));
+                .Do(ctx => PrintBillingInfo(patient, patientInvoice, patientProcedure));
         }
 
-        private void PrintBillingInfo(Patient patient, IEnumerable<PatientInvoiceResult> patientInvoices, 
-            IEnumerable<PatientProcedureResult> patientProcedures)
+        private void PrintBillingInfo(Patient patient, PatientInvoiceResult patientInvoice,
+            PatientProcedureResult patientProcedure)
         {
             Console.WriteLine($"hello");
         }
