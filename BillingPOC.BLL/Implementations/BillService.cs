@@ -36,7 +36,7 @@ namespace BillingPOC.BLL.Implementations
 
         public async Task<object> CalculateBill(int patientId)
         {
-            Patient patient =  await _unitOfWork.Patient.GetByIdAsync(patientId);
+            Patient? patient =  await _unitOfWork.Patient.GetRelatedPatientData(patientId);
             
             IEnumerable<PatientProcedureResult> patientprocedures = await _unitOfWork.PatientProcedureViewResult.GetPatientProcedureResultsAsync(patientId);
 
@@ -52,6 +52,8 @@ namespace BillingPOC.BLL.Implementations
 
             // Fire the rules
             session.Fire();
+
+            await _unitOfWork.CompleteAsync();
 
             return new
             {

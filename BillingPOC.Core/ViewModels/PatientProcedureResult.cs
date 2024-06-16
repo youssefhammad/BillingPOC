@@ -17,5 +17,6 @@ namespace BillingPOC.Core.ViewModels
         public int? ProcedureStatusId { get; set; }
         public decimal Price { get; set; }
         public decimal CoInsurance { get; set; }
+        public int PatientMedicalProcedureId { get; set; }
     }
 }

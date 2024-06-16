@@ -9,5 +9,6 @@ namespace BillingPOC.Core.Interfaces.Repositories
 {
     public interface IPatientRepository : IGenericRepository<Patient>
     {
+        Task<Patient?> GetRelatedPatientData(int patientId);
     }
 }
