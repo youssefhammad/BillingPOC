@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,7 +73,9 @@ builder.Services.AddScoped<IUserFlow, UserFlow>();
 builder.Services.AddScoped<IBillService, BillService>();
 builder.Services.AddScoped<IBillFlow, BillFlow>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                  x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
