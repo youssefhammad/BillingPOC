@@ -31,6 +31,7 @@ namespace BillingPOC.DAL.Data
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceStatus> InvoiceStatuses { get; set; }
         public DbSet<PatientInvoiceResult> PatientInvoiceResults { get; set; }
+        public DbSet<PatientRuleHistory> PatientRuleHistories { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

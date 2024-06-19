@@ -1,7 +1,10 @@
-﻿using BillingPOC.Core.Entities;
+﻿using BillingPOC.Core.DTOs.Rules;
+using BillingPOC.Core.Entities;
 using BillingPOC.Core.ViewModels;
 using NRules.Fluent.Dsl;
 using NRules.RuleModel;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace BillingPOC.BLL.Rules
 {
@@ -50,6 +53,29 @@ namespace BillingPOC.BLL.Rules
             medicalProcedure.CoveredAmount = coveredAmount;
 
             medicalProcedure.ProcedureStatusId = 1;
+
+            RuleWrapper ruleWrapper = new RuleWrapper();
+
+            ruleWrapper.ActionRules.Add(patientProcedure);
+            ruleWrapper.ActionRules.Add(patient);
+            ruleWrapper.ActionRules.Add(medicalProcedure);
+
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                WriteIndented = true
+            };
+
+            string jsonString = JsonSerializer.Serialize(ruleWrapper, options);
+
+            PatientRuleHistory patientRuleHistory = new PatientRuleHistory()
+            {
+                PatientId = patient.PatientId,
+                RuleActionData = jsonString,
+                RuleName = nameof(PatientBillingRule2)
+            };
+
+            patient.PatientRuleHistories.Add(patientRuleHistory);
 
             Console.WriteLine($"config 2");
         }

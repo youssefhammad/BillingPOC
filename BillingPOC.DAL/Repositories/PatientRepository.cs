@@ -34,6 +34,7 @@ namespace BillingPOC.DAL.Repositories
         public async Task<Patient?> GetRelatedPatientData(int patientId)
         {
             return await _context.Patients
+                .Include(p => p.PatientRuleHistories)
                 .Include(p => p.Invoices)
                     .ThenInclude(i => i.PatientMedicalProcedures)
                 .FirstOrDefaultAsync(p => p.PatientId == patientId);

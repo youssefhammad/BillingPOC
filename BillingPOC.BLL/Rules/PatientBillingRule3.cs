@@ -1,4 +1,5 @@
-﻿using BillingPOC.Core.Entities;
+﻿using BillingPOC.Core.DTOs.Rules;
+using BillingPOC.Core.Entities;
 using BillingPOC.Core.ViewModels;
 using NRules.Fluent.Dsl;
 using NRules.RuleModel;
@@ -6,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BillingPOC.BLL.Rules
@@ -38,16 +41,40 @@ namespace BillingPOC.BLL.Rules
                                    procedureResult => procedureResult.ProcedureConfigurationId == 3));
 
             Then()
-                .Do(ctx => UpdatePatientEntity3(patientProcedureView, medicalProcedure))
+                .Do(ctx => UpdatePatientEntity3(patientProcedureView, medicalProcedure, patient))
                 .Do(ctx => ctx.Update(medicalProcedure));
         }
 
-        private void UpdatePatientEntity3(PatientProcedureResult patientProcedure, PatientMedicalProcedure medicalProcedure)
+        private void UpdatePatientEntity3(PatientProcedureResult patientProcedure, 
+            PatientMedicalProcedure medicalProcedure, Patient patient)
         {
             
             medicalProcedure.OutOfPocketCost = patientProcedure.Price;
 
             medicalProcedure.ProcedureStatusId = 1;
+
+            RuleWrapper ruleWrapper = new RuleWrapper();
+
+            ruleWrapper.ActionRules.Add(patientProcedure);
+            ruleWrapper.ActionRules.Add(patient);
+            ruleWrapper.ActionRules.Add(medicalProcedure);
+
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                WriteIndented = true
+            };
+
+            string jsonString = JsonSerializer.Serialize(ruleWrapper, options);
+
+            PatientRuleHistory patientRuleHistory = new PatientRuleHistory()
+            {
+                PatientId = patient.PatientId,
+                RuleActionData = jsonString,
+                RuleName = nameof(PatientBillingRule3)
+            };
+
+            patient.PatientRuleHistories.Add(patientRuleHistory);
 
             Console.WriteLine($"config 3");
         }

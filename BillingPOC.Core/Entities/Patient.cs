@@ -17,5 +17,6 @@ namespace BillingPOC.Core.Entities
         public decimal CoInsurance { get; set; }
         public bool IsVIP { get; set; } = false;
         public ICollection<Invoice> Invoices { get; set; }
+        public ICollection<PatientRuleHistory> PatientRuleHistories { get; set; }
     }
 }
