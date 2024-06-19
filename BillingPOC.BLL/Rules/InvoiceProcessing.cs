@@ -26,7 +26,8 @@ namespace BillingPOC.BLL.Rules
                 .All<PatientMedicalProcedure>(a => a.InvoiceId == invoice.InvoiceId, a => a.ProcedureStatusId == 1);
 
             Then()
-                .Do(ctx => UpdateInvoiceStatus(invoice, patientMedicalProcedures));
+                .Do(ctx => UpdateInvoiceStatus(invoice, patientMedicalProcedures))
+                .Do(ctx => ctx.Update(invoice));
         }
 
         private void UpdateInvoiceStatus(Invoice invoice, IEnumerable<PatientMedicalProcedure> patientMedicalProcedures)

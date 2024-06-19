@@ -15,6 +15,7 @@ namespace BillingPOC.Core.Entities
         [ForeignKey("PlanId")]
         public Plan Plan { get; set; }
         public decimal CoInsurance { get; set; }
+        public bool IsVIP { get; set; } = false;
         public ICollection<Invoice> Invoices { get; set; }
     }
 }
