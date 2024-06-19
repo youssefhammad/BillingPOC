@@ -38,7 +38,8 @@ namespace BillingPOC.BLL.Rules
                                    procedureResult => procedureResult.ProcedureConfigurationId == 3));
 
             Then()
-                .Do(ctx => UpdatePatientEntity3(patientProcedureView, medicalProcedure));
+                .Do(ctx => UpdatePatientEntity3(patientProcedureView, medicalProcedure))
+                .Do(ctx => ctx.Update(medicalProcedure));
         }
 
         private void UpdatePatientEntity3(PatientProcedureResult patientProcedure, PatientMedicalProcedure medicalProcedure)

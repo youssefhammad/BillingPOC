@@ -33,15 +33,16 @@ namespace BillingPOC.BLL.Rules
                                    procedureResult => procedureResult.ProcedureConfigurationId == 2));
 
             Then()
-                .Do(ctx => UpdatePatientEntity2(patient, patientProcedureView, medicalProcedure));
+           .Do(ctx => UpdatePatientEntity2(patient, patientProcedureView, medicalProcedure))
+           .Do(ctx => ctx.Update(medicalProcedure));
         }
 
         private void UpdatePatientEntity2(Patient patient,
-        PatientProcedureResult patientProcedure, PatientMedicalProcedure medicalProcedure)
+            PatientProcedureResult patientProcedure, PatientMedicalProcedure medicalProcedure)
         {
 
             decimal outOfPocketCost = patient.CoInsurance * patientProcedure.Price;
-            
+
             medicalProcedure.OutOfPocketCost = outOfPocketCost;
 
             decimal coveredAmount = patientProcedure.Price - outOfPocketCost;
