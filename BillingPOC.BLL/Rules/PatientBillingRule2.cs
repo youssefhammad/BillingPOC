@@ -11,36 +11,41 @@ namespace BillingPOC.BLL.Rules
         public override void Define()
         {
             Patient patient = default!;
-            PatientInvoiceResult patientInvoice = default!;
-            PatientProcedureResult patientProcedure = default!;
+            Invoice invoice = default!;
+            PatientInvoiceResult patientInvoiceView = default!;
+            PatientProcedureResult patientProcedureView = default!;
+            PatientMedicalProcedure medicalProcedure = default!;
 
             When()
                 .Match<Patient>(() => patient)
-                    .Match<PatientInvoiceResult>(() => patientInvoice,
-                        invoice => invoice.PatientId == patient.PatientId,
-                        invoice => invoice.InvoiceStatusId == 2)
-                    .Match<PatientProcedureResult>(() => patientProcedure,
-                        procedure => patientInvoice.InvoiceId == procedure.InvoiceId,
-                        procedure => procedure.ProcedureStatusId == 2,
-                        procedure => procedure.ProcedureConfigurationId == 2);
+                    .Match<Invoice>(() => invoice,
+                        inv => inv.PatientId == patient.PatientId)
+                    .Query(() => patientInvoiceView,
+                        q => q.Match<PatientInvoiceResult>()
+                            .Where(invoiceResult => invoiceResult.InvoiceId == invoice.InvoiceId,
+                                   invoiceResult => invoiceResult.InvoiceStatusId == 2))
+                    .Match<PatientMedicalProcedure>(() => medicalProcedure,
+                        proc => proc.InvoiceId == patientInvoiceView.InvoiceId &&
+                                proc.ProcedureStatusId == 2)
+                    .Query(() => patientProcedureView,
+                        q => q.Match<PatientProcedureResult>()
+                           .Where(procedureResult => procedureResult.PatientMedicalProcedureId == medicalProcedure.PatientMedicalProcedureId,
+                                   procedureResult => procedureResult.ProcedureConfigurationId == 2));
 
             Then()
-                .Do(ctx => UpdatePatientEntity2(patient, patientInvoice, patientProcedure));
+                .Do(ctx => UpdatePatientEntity2(patient, patientProcedureView, medicalProcedure));
         }
 
-        private void UpdatePatientEntity2(Patient patient, PatientInvoiceResult patientInvoice,
-    PatientProcedureResult patientProcedure)
+        private void UpdatePatientEntity2(Patient patient,
+        PatientProcedureResult patientProcedure, PatientMedicalProcedure medicalProcedure)
         {
-            var invoice = patient.Invoices
-                .FirstOrDefault(invoice => invoice.InvoiceId == patientInvoice.InvoiceId);
-
-            var medicalProcedure = invoice.PatientMedicalProcedures
-                .FirstOrDefault(pm => pm.PatientMedicalProcedureId == patientProcedure.PatientMedicalProcedureId);
 
             decimal outOfPocketCost = patient.CoInsurance * patientProcedure.Price;
+            
             medicalProcedure.OutOfPocketCost = outOfPocketCost;
 
             decimal coveredAmount = patientProcedure.Price - outOfPocketCost;
+
             medicalProcedure.CoveredAmount = coveredAmount;
 
             medicalProcedure.ProcedureStatusId = 1;
