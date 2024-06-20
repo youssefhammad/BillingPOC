@@ -39,5 +39,12 @@ namespace BillingPOC.DAL.Repositories
                     .ThenInclude(i => i.PatientMedicalProcedures)
                 .FirstOrDefaultAsync(p => p.PatientId == patientId);
         }
+
+        public async Task<IEnumerable<Patient?>> GetRelatedPatientWithPlan()
+        {
+            return await _context.Patients
+                .Include(p => p.Plan)
+                .ToListAsync();
+        }
     }
 }

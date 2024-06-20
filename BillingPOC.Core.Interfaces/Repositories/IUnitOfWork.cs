@@ -13,6 +13,8 @@ namespace BillingPOC.Core.Interfaces.Repositories
         IPatientProcedureResultRepository PatientProcedureViewResult { get; }
         IPatientInvoiceResultRepository PatientInvoiceResult { get; }
         IPatientRepository Patient { get; }
+        IMedicalProceduresRepository MedicalProcedures { get; }
+        IInvoiceRepository Invoice {  get; }
         Task<int> CompleteAsync();
     }
 }
